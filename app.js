@@ -4,7 +4,8 @@ var _ = require('lodash'),
     config = require('./config/config'),
     path = require('path'),
     waterline = require('waterline'),
-    apiModel = require('./api/model');
+    baseModel = require('./lib/model'),
+    baseController = require('./lib/controller');
 
 // Instantiate a new instance of the ORM
 var orm = new waterline();
@@ -20,7 +21,7 @@ var models = requireAll(rootPath + '/models'),
 
 // Load models into waterline
 _(models).each(function (model) {
-    orm.loadCollection(waterline.Collection.extend(new apiModel(model)));
+    orm.loadCollection(waterline.Collection.extend(new baseModel(model)));
 });
 
 orm.initialize(config.orm, function (err, models) {
@@ -35,7 +36,9 @@ orm.initialize(config.orm, function (err, models) {
         // Load controllers, routes, config into app instance
         app.controllers = {};
         _(controllers).each(function (controller, key) {
-            app.controllers[key] = controller(app);
+            var model = controller.model ? app.models[controller.model] : null;
+            controller.mount.call(new baseController(model, controller.routes), app);
+            app.controllers[key] = controller;
         });
         app.routes = {};
         _(routes).each(function (route, key) {

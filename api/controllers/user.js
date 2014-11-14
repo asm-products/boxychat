@@ -1,14 +1,9 @@
-var Controller = require('../controller');
+// This controller will inherit CRUD actions from its base controller implementation
+// Go ahead and try to POST a new user to /user
 
-module.exports = function (app) {
-
-    // Grab our model instance from the app object
-    var UserModel = app.models.user;
-
-    // This controller will inherit CRUD actions from its base controller implementation
-    // Go ahead and try to POST a new user to /user
-    var UserController = new Controller(UserModel, function (router) {
-
+module.exports = {
+    model: 'user', // If no model is specified, CRUD actions won't be inherited
+    routes: function (router) {
         // Custom actions can be added
         router.get('/hello', function (req, res, next) {
             res.send('Hello world!');
@@ -20,9 +15,10 @@ module.exports = function (app) {
             err.status = 401;
             next(err);
         });
-    });
-
-    // Here we can mount our controller using its generated route path
-    // And we are free to add more middleware if needed
-    app.use(UserController.path, UserController);
+    },
+    mount: function (app) {
+        // Here we can mount our controller using its generated route path
+        // And we are free to add more middleware if needed
+        app.use(this.path, this);
+    }
 };
