@@ -22,7 +22,7 @@ module.exports = function (app) {
         });
     });
 
-    // Here we can register our controller under its auto-generated path
+    // Here we can register our controller under its auto-generated path as its route
     // And we are free to add more middleware if needed
     app.use(UserController.path, UserController);
 };

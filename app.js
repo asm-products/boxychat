@@ -1,33 +1,48 @@
-var express = require('express'),
+var _ = require('lodash'),
+    express = require('express'),
+    requireAll = require('require-all'),
     config = require('./config/config'),
-    glob = require('glob'),
-    waterlineConfig = require('./config/waterline'),
+    path = require('path'),
     waterline = require('waterline');
 
 // Instantiate a new instance of the ORM
 var orm = new waterline();
 
-// Require all models
-var models = glob.sync(config.root + '/api/models/*.js');
-models.forEach(function (model) {
-    model = require(model);
-    // Load the model into the ORM
-    orm.loadCollection(model);
-});
+var rootPath = path.normalize(__dirname + '/api');
+
 var app = express();
 
-orm.initialize(waterlineConfig, function(err, models){
-    if(err) throw err;
+// Require all models, controllers
+var models = requireAll(rootPath + '/models'),
+    controllers = requireAll(rootPath + '/controllers'),
+    routes = requireAll(rootPath + '/routes');
+
+// Load models into waterline
+_(models).each(function (model) {
+    orm.loadCollection(waterline.Collection.extend(model));
+});
+
+orm.initialize(config.orm, function (err, models) {
+    if (err) throw err;
 
     app.models = models.collections;
     app.databases = models.connections;
 
-    require('./config/express')(app, config);
+    // Load controllers, routes, config into app instance
+    app.controllers = {};
+    _(controllers).each(function (controller, key) {
+        app.controllers[key] = controller(app);
+    });
+    app.routes = {};
+    _(routes).each(function (route, key) {
+        app.routes[key] = route(app);
+    });
+    app.config = config.app;
 
-    app.listen(config.port, function(){
-        console.log(config.app.name + ' server listening on port ' + config.port);
+    require('./config/express')(app, app.config);
+
+    app.listen(config.app.port, function () {
+        console.log(config.app.name + ' server listening on port ' + config.app.port);
     });
 
 });
-
-
