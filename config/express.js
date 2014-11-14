@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 
-module.exports = function (app, config) {
+module.exports = function (app, config, mountMiddlewareCb) {
 
     // app.use(favicon(config.root + '/public/img/favicon.ico'));
     app.use(logger('dev'));
@@ -19,6 +19,10 @@ module.exports = function (app, config) {
     app.use(express.static(config.root + '/public'));
     app.use(methodOverride());
 
+    // Mount our middleware (controllers, routes) before the status code handlers
+    mountMiddlewareCb();
+
+    // Status code handlers
     app.use(function (req, res, next) {
         var err = new Error('Not Found');
         err.status = 404;
