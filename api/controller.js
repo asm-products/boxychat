@@ -3,10 +3,10 @@
 var BaseController = function (model, routesFn) {
     var router = require('express').Router();
 
-    // First define the child routes:
+    // First apply the actions from the controller that will inherit from this one.
     routesFn(router);
 
-    // Then define the blueprint routes:
+    // Then define this controller's CRUD actions:
 
     // Search
     router.get('/', function (req, res, next) {
