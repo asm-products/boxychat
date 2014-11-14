@@ -17,7 +17,7 @@ exports.orm = {
         'mongo': mongoAdapter
     },
     connections: {
-        'mongo': {
+        'default': {
             adapter: 'mongo',
             host: 'localhost',
             database: 'boxychat'
