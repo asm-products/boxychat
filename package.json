@@ -1,0 +1,30 @@
+{
+  "name": "boxychat",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.4.3",
+    "compression": "~1.0.8",
+    "cookie-parser": "~1.3.2",
+    "express": "~4.2.0",
+    "express-load": "^1.1.14",
+    "glob": "^4.0.6",
+    "lodash": "^2.4.1",
+    "method-override": "~2.1.1",
+    "mongoose": "~3.8.12",
+    "morgan": "~1.1.1",
+    "require-all": "0.0.8",
+    "sails-disk": "^0.10.4",
+    "sails-mongo": "^0.10.4",
+    "serve-favicon": "~2.0.1",
+    "waterline": "^0.10.13"
+  },
+  "devDependencies": {
+    "gulp": "~3.8.8",
+    "gulp-nodemon": "~1.0.4",
+    "gulp-livereload": "~2.1.1"
+  }
+}
