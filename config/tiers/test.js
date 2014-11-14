@@ -1,4 +1,4 @@
-// Development environment
+// Test environment
 
 // Application configuration
 var rootPath = require('path').normalize(__dirname + '/../..');
