@@ -1,6 +1,4 @@
-var Model = require('../model');
-
-var User = new Model({
+module.exports = {
 
     identity: 'user',
 
@@ -8,6 +6,4 @@ var User = new Model({
         first_name: 'string',
         last_name: 'string'
     }
-});
-
-module.exports = User;
+};

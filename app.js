@@ -3,7 +3,8 @@ var _ = require('lodash'),
     requireAll = require('require-all'),
     config = require('./config/config'),
     path = require('path'),
-    waterline = require('waterline');
+    waterline = require('waterline'),
+    apiModel = require('./api/model');
 
 // Instantiate a new instance of the ORM
 var orm = new waterline();
@@ -19,7 +20,7 @@ var models = requireAll(rootPath + '/models'),
 
 // Load models into waterline
 _(models).each(function (model) {
-    orm.loadCollection(waterline.Collection.extend(model));
+    orm.loadCollection(waterline.Collection.extend(new apiModel(model)));
 });
 
 orm.initialize(config.orm, function (err, models) {
