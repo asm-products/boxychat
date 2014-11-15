@@ -14,11 +14,11 @@ var mongoAdapter = require('sails-mongo');
 
 exports.orm = {
     adapters: {
-        'default': mongoAdapter
+        'mongo': mongoAdapter
     },
     connections: {
         'default': {
-            adapter: 'default',
+            adapter: 'mongo',
             host: 'localhost',
             database: 'boxychat'
         }
