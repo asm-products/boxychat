@@ -15,8 +15,16 @@ module.exports = {
             required: true
         },
         activated: 'boolean',
-        activationToken: 'string'
+        activationToken: 'string',
+
+        validPassword: function(password, cb) {
+            Service.crypt.compare(password, this.password, function (error, response) {
+                if (error) return cb(error, response);
+                return cb(null, response);
+            });
+        }
     },
+
 
     /**
      * Hash the users password with bcrypt
