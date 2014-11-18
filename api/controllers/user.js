@@ -3,22 +3,18 @@
 
 module.exports = {
     model: 'user', // If no model is specified, CRUD actions won't be inherited
-    routes: function (router) {
+    actions: {
         // Custom actions can be added
-        router.get('/hello', function (req, res, next) {
+        // The action keys must be in this format:
+        // 'verb /route'
+        'get /hello': function (req, res, next) {
             res.send('Hello world!');
-        });
-
+        },
         // Override the inherited read action
-        router.get('/:id', function (req, res, next) {
+        'get /:id': function(req, res, next){
             var err = new Error('Not authorized!');
             err.status = 401;
             next(err);
-        });
-    },
-    mount: function (app) {
-        // Here we can mount our controller using its generated route path
-        // And we are free to add more middleware if needed
-        app.use(this.path, this);
+        }
     }
 };
