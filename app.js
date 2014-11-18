@@ -12,7 +12,7 @@ var orm = new waterline();
 var rootPath = path.normalize(__dirname + '/api');
 
 var app = express();
-var server = require('http').Server(app);
+var server = require('http').createServer(app);
 
 // Require all models, controllers
 var models = requireAll(rootPath + '/models'),
@@ -68,7 +68,7 @@ orm.initialize(config.orm, function (err, models) {
 
     });
 
-    app.listen(config.app.port, function () {
+    server.listen(config.app.port, function () {
         console.log(config.app.name + ' server listening on port ' + config.app.port);
     });
 
