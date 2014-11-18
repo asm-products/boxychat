@@ -4,8 +4,7 @@ var _ = require('lodash'),
     config = require('./config/config'),
     path = require('path'),
     waterline = require('waterline'),
-    baseModel = require('./lib/model'),
-    baseController = require('./lib/controller');
+    baseModel = require('./lib/model');
 
 // Instantiate a new instance of the ORM
 var orm = new waterline();
@@ -46,12 +45,27 @@ orm.initialize(config.orm, function (err, models) {
 
         // Load controllers
         app.controllers = {};
+
+        var controllerBuilder = require('./lib/controllerBuilder');
+        var controllerBuilders = {};
+
         _(controllers).each(function (controller, key) {
-            var model = controller.model ? app.models[controller.model] : null;
-            controller.mount.call(new baseController(model, controller.routes), app);
+            controller.identity = key;
+
+            var builder = new controllerBuilder(app, controller);
+            controllerBuilders[key] = builder;
             app.controllers[key] = controller;
+            builder.buildActions();
         });
+
+        // Bind controller sockets on incoming connections
+        app.sockets.on('connection', function (socket) {
+            // Bind each controller's socket handlers for this connection
+            _(controllerBuilders).each(function (builder) {
+                builder.buildSockets(socket);
+            });
         });
+
     });
 
     app.listen(config.app.port, function () {
