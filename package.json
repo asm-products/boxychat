@@ -20,6 +20,7 @@
     "sails-disk": "^0.10.4",
     "sails-mongo": "^0.10.4",
     "serve-favicon": "~2.0.1",
+    "socket.io": "^1.2.0",
     "waterline": "^0.10.13"
   },
   "devDependencies": {

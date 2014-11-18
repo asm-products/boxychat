@@ -13,6 +13,7 @@ var orm = new waterline();
 var rootPath = path.normalize(__dirname + '/api');
 
 var app = express();
+var server = require('http').Server(app);
 
 // Require all models, controllers
 var models = requireAll(rootPath + '/models'),
@@ -33,16 +34,23 @@ orm.initialize(config.orm, function (err, models) {
     app.config = config.app;
 
     require('./config/express')(app, app.config, function () {
-        // Load controllers, routes, config into app instance
+
+        // Load routes
+        app.routes = {};
+        _(routes).each(function (route, key) {
+            app.routes[key] = route(app);
+        });
+
+        // Load listen socket
+        app.sockets = require('./config/socket-io')(server, app);
+
+        // Load controllers
         app.controllers = {};
         _(controllers).each(function (controller, key) {
             var model = controller.model ? app.models[controller.model] : null;
             controller.mount.call(new baseController(model, controller.routes), app);
             app.controllers[key] = controller;
         });
-        app.routes = {};
-        _(routes).each(function (route, key) {
-            app.routes[key] = route(app);
         });
     });
 
