@@ -1,5 +1,5 @@
-var LocalStrategy   = require('passport-local').Strategy;
-
+var BearerStrategy   = require('passport-http-bearer').Strategy;
+var jwt = require('jsonwebtoken');
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -15,22 +15,13 @@ module.exports = function(passport) {
         });
     });
 
-    passport.use('local-login', new LocalStrategy({
-            usernameField : 'email',
-            passwordField : 'password',
-            passReqToCallback : true
-        }, function(req, email, password, done) {
-            req.app.models.user.findOne({ 'email' :  email }, function(err, user) {
-                if (err)
-                    return done(err);
-                if (!user)
-                    return done({err: 'Oops! Wrong user.'}, false);
-
-                user.validPassword(password, function(err, result) {
-                    if(err || result === false) return done({err: 'Oops! Wrong password.'}, false);
-                    return done(null, user);
-                });
+    passport.use(new BearerStrategy(
+        function(token, done) {
+            jwt.verify(token, 'shhhhh', function(err, decoded) {
+                if (err) { return done(err); }
+                if (!decoded) { return done(null, false); }
+                return done(null, decoded.id, { scope: 'all' });
             });
-
-        }));
+        }
+    ));
 };

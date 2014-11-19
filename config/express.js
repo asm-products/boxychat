@@ -17,9 +17,9 @@ module.exports = function (app, config, mountMiddlewareCb) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-    app.use(session({secret: 'superubermegasecret', saveUninitialized: true, resave: true}));
+    // app.use(session({secret: 'superubermegasecret', saveUninitialized: true, resave: true}));
     app.use(passport.initialize());
-    app.use(passport.session());
+    // app.use(passport.session());
     app.passport = passport;
     app.use(cookieParser());
     app.use(compress());

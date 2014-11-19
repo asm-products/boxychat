@@ -16,6 +16,7 @@ module.exports = {
         },
         activated: 'boolean',
         activationToken: 'string',
+        token: 'string',
 
         validPassword: function(password, cb) {
             Service.crypt.compare(password, this.password, function (error, response) {
@@ -41,6 +42,8 @@ module.exports = {
                 user.password = hash;
                 user.activated = false;
                 user.activationToken = Service.crypt.token(new Date().getTime() + user.email);
+                user.token = Service.crypt.token(new Date().getTime() + user.email + new Date().getTime());
+
                 return cb(null, user);
             }
         });
