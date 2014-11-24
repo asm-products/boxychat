@@ -5,6 +5,7 @@ module.exports = function(server, secrets) {
 
     io.use(function(socket, next) {
         var handshakeData = socket.request;
+        var token = handshakeData.query ? handshakeData.query.token : null;
         Service.token.verify(token, secrets.token, function(err, decoded) {
             if (err) { return next(err); }
             if (!decoded) { return next(new Error('not authorized')); }
