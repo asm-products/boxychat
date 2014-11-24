@@ -3,8 +3,8 @@ module.exports = {
     identity: 'user',
 
     attributes: {
-        first_name: 'string',
-        last_name: 'string',
+        firstName: 'string',
+        lastName: 'string',
         email: {
             type: 'email',
             required: true,
@@ -23,9 +23,17 @@ module.exports = {
                 if (error) return cb(error, response);
                 return cb(null, response);
             });
+        },
+
+        // Override to filter out sensitive information such as passwords.
+        toJSON: function() {
+            var obj = this.toObject();
+            delete obj.password;
+            delete obj.activationToken;
+            delete obj.token;
+            return obj;
         }
     },
-
 
     /**
      * Hash the users password with bcrypt
