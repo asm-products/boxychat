@@ -1,7 +1,6 @@
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
-// This controller will inherit CRUD actions from its base controller implementation
-// Go ahead and try to POST a new user to /user
+
 
 function loginEmailPassword(req, email, password, cb) {
     req.app.models.user.findOne({'email': email}, function (err, user) {
@@ -35,9 +34,10 @@ function login(req,cb) {
 }
 
 module.exports = {
-    routes: function (router) {
+    path: '/', // mount on index (root) path
+    actions:  {
         //login route
-        router.post('/login', function (req, res, next) {
+        'post /login': function (req, res, next) {
             login(req, function(err, user) {
                 if(err || !user) {
                     return res.json(500, {message: 'Check your email'});
@@ -45,16 +45,14 @@ module.exports = {
                 var accessToken = jwt.sign({ id: "3" }, 'shhhhh');
                 return res.json({access_token: accessToken});
             });
-        });
+        },
 
-        router.get('/test', passport.authenticate('bearer', { session: false }), function (req, res, next) {
-            res.json({test: "test"});
-        });
+        'get /test': [
+            passport.authenticate('bearer', {session: false}),
+            function (req, res, next) {
+                res.json({test: "test"});
+            }
+        ]
 
-    },
-    mount: function (app) {
-        // Here we can mount our controller using its generated route path
-        // And we are free to add more middleware if needed
-        app.use('/', this);
     }
 };
