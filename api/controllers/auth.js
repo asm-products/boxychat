@@ -44,7 +44,7 @@ module.exports = {
                 if(err || !user) {
                     return res.json(500, {message: 'Check your email'});
                 }
-                var accessToken = Service.token.sign({ id: "3" });
+                var accessToken = Service.token.sign({ id: user.id });
                 return res.json({access_token: accessToken});
             });
         },
