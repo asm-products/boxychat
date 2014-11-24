@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
+var passport = require('passport');
+var session = require('express-session');
+require('./passport')(passport);
 
 module.exports = function (app, config, mountMiddlewareCb) {
 
@@ -14,6 +17,10 @@ module.exports = function (app, config, mountMiddlewareCb) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    // app.use(session({secret: 'superubermegasecret', saveUninitialized: true, resave: true}));
+    app.use(passport.initialize());
+    // app.use(passport.session());
+    app.passport = passport;
     app.use(cookieParser());
     app.use(compress());
     app.use(express.static(config.root + '/public'));
