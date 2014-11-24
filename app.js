@@ -35,7 +35,7 @@ orm.initialize(config.orm, function (err, models) {
     app.config = config.app;
 
     // Configure passport
-    require('./config/passport')(passport, config.secrets);
+    require('./config/passport')(passport);
 
     // Configure express
     require('./config/express')(app, app.config, passport, function () {
@@ -54,8 +54,11 @@ orm.initialize(config.orm, function (err, models) {
             global.Service[key] = service;
         });
 
+        // Initialize services that need to be so
+        Service.token.initialize({secret: config.secrets.token});
+
         // Configure and load listen socket
-        app.sockets = require('./config/socket-io')(server, config.secrets);
+        app.sockets = require('./config/socket-io')(server);
 
         // Load controllers
         app.controllers = {};

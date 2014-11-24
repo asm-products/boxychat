@@ -44,7 +44,7 @@ module.exports = {
                 if(err || !user) {
                     return res.json(500, {message: 'Check your email'});
                 }
-                var accessToken = jwt.sign({ id: "3" }, 'shhhhh');
+                var accessToken = Service.token.sign({ id: "3" });
                 return res.json({access_token: accessToken});
             });
         },
