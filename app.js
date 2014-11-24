@@ -17,7 +17,8 @@ var app = express();
 // Require all models, controllers
 var models = requireAll(rootPath + '/models'),
     controllers = requireAll(rootPath + '/controllers'),
-    routes = requireAll(rootPath + '/routes');
+    routes = requireAll(rootPath + '/routes'),
+    services = requireAll(rootPath + '/services')
 
 // Load models into waterline
 _(models).each(function (model) {
@@ -43,6 +44,13 @@ orm.initialize(config.orm, function (err, models) {
         app.routes = {};
         _(routes).each(function (route, key) {
             app.routes[key] = route(app);
+        });
+
+        app.services = {};
+        global.Service = {}
+        _(services).each(function (service, key) {
+            app.services[key] = service;
+            global.Service[key] = service;
         });
     });
 
