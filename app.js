@@ -1,5 +1,6 @@
 var _ = require('lodash'),
     express = require('express'),
+    passport = require('passport'),
     requireAll = require('require-all'),
     config = require('./config/config'),
     path = require('path'),
@@ -33,7 +34,11 @@ orm.initialize(config.orm, function (err, models) {
 
     app.config = config.app;
 
-    require('./config/express')(app, app.config, function () {
+    // Configure passport
+    require('./config/passport')(passport, config.secrets);
+
+    // Configure express
+    require('./config/express')(app, app.config, passport, function () {
 
         // Load routes
         app.routes = {};
@@ -49,8 +54,8 @@ orm.initialize(config.orm, function (err, models) {
             global.Service[key] = service;
         });
 
-        // Load listen socket
-        app.sockets = require('./config/socket-io')(server, app);
+        // Configure and load listen socket
+        app.sockets = require('./config/socket-io')(server, config.secrets);
 
         // Load controllers
         app.controllers = {};
