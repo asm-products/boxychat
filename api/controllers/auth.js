@@ -38,6 +38,8 @@ module.exports = {
     actions:  {
         //login route
         'post /login': function (req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "X-Requested-With");
             login(req, function(err, user) {
                 if(err || !user) {
                     return res.json(500, {message: 'Check your email'});
