@@ -27,3 +27,8 @@ exports.orm = {
         migrate: 'alter'
     }
 };
+
+// Secrets
+exports.secrets = {
+    token: 'shhhhh'
+};
