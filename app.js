@@ -77,6 +77,8 @@ orm.initialize(config.orm, function (err, models) {
 
         // Bind controller sockets on incoming connections
         app.sockets.on('connection', function (socket) {
+            // add a user to a room with it's same ID
+            socket.join(socket.user.id);
             // Bind each controller's socket handlers for this connection
             _(controllerBuilders).each(function (builder) {
                 builder.buildSockets(socket);
