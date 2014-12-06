@@ -32,3 +32,16 @@ exports.orm = {
 exports.secrets = {
     token: 'shhhhh'
 };
+
+//MAIL configuration
+exports.nodemailer = {
+		  usessl: true,
+		  port: 465,
+		  from: 'noreply@boxychat.io',
+		  passwordReset_subject: "Please reset password at boxyChat!",
+		  password_expiry_ms: 2*60*60*1000,
+		  prepend_subject: false,
+		  host: 'smtp.mailgun.org',
+		  user: 'ppostmaster@boxychat.io',
+		  pass: 'b6727dc949ea75319d1d7ed957346437'
+};

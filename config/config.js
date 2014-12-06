@@ -24,4 +24,5 @@ if (Object.keys(loadedConfig).length === 0) {
     console.error('Unable to load config file. Make sure an environment tier exists for:', env);
 }
 
+console.log(loadedConfig);
 module.exports = loadedConfig;
