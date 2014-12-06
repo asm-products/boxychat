@@ -42,6 +42,6 @@ exports.nodemailer = {
 		  password_expiry_ms: 2*60*60*1000,
 		  prepend_subject: false,
 		  host: 'smtp.mailgun.org',
-		  user: 'ppostmaster@boxychat.io',
+		  user: 'postmaster@boxychat.io',
 		  pass: 'b6727dc949ea75319d1d7ed957346437'
 };
