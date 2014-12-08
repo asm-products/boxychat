@@ -14,7 +14,7 @@ module.exports = {
 
         /** sets up the modemailer smtp transport */
         var transport = nodemailer.createTransport("SMTP", {
-            service: "Mailgun",
+            service: config.nodemailer.service,
             auth: {
                 user: config.nodemailer.user,
                 pass: config.nodemailer.pass

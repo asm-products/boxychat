@@ -2,35 +2,29 @@
 // Go ahead and try to POST a new user to /user
 
 var config = require('../../config/config.js');
- 
-function verifyEmail(req, email, cb){
-	req.app.models.user.findOne({'email': email}, function (err, user) {
-        if (err)
-            cb(err);
-        else
-        	cb(null, user);
-	});
-}
 	
 // callback of callback :(
 function sendEmail(req, cb){
 	var email = req.param('email');
-	verifyEmail(req, email, function(err, user){
+	Service.user.findByEmail(email, function(err, user){
 		if(err || !user)
-		   cb(err||new Error(), {errId: 'email address not exist', err: err});
+		   cb(err||new Error(), {errId: 'Email_Address_Not_Exist', err: err});
 		else{
-			console.log("send email out to" + email);
 			var accessToken = Service.token.sign({email: email, expiryAt: new Date().getTime() + config.nodemailer.password_expiry_ms });
-		       
-    		var email = {'from' : config.nodemailer.from,
+			var link = config.nodemailer.password_reset_link + "?token=" + accessToken;
+			var msg = '<html>Hello there, </br>Greetings from boxychat, this is your password reset link, click <a href="' + link + '">here</a></html>';
+			console.log("send password reset email out to " + email);
+			var emailObj = {
+					'name' : config.nodemailer.name,
+					'from' : config.nodemailer.from,
     				'to' :		email,
     				'subject' : config.nodemailer.passwordReset_subject,
-    				'html' : 'hello from boxychat, this is your password reset link: ' + accessToken,
+    				'messageHtml' : msg
     		};  
     		
-    		Service.mail.send(email, function(err, response){
+    		Service.mail.send(emailObj, function(err, response){
     			if(err)
-    				 cb(err, {errId: 'fail to send email', err: err});
+    				 cb(err, {errId: 'Send_Email_Failure', err: err});
     			else{
     				 cb(null, {access_token: accessToken});
     			}
@@ -69,10 +63,13 @@ module.exports = {
         	var confirm = req.param('confirm');
         	
         	Service.crypt.generate({saltComplexity: 10}, pass, function (err, hash) {
-        		console.log("password for " + email + "is reset");
-        		req.app.models.user.update({email: email}, {password: hash}, function(err, model){
+        		console.log("password for " + email + " is reset");
+        		Model.user.update({email: email}, {password: hash}, function(err, model){
         			if(err) return res.json(500, { err: err });
-        		    res.json(model);
+        			else if(!model || model.length == 0) 
+        				return res.json(400, { err: 'email address not found' });
+        			else	
+        				res.json(model);
         		});
         	});
         },
