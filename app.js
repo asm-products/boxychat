@@ -54,6 +54,9 @@ orm.initialize(config.orm, function (err, models) {
             global.Service[key] = service;
         });
 
+        //expose waterline orm
+        global.Model = app.models;
+        
         // Initialize services that need to be so
         Service.token.initialize({secret: config.secrets.token});
 
