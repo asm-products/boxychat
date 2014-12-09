@@ -7,8 +7,8 @@ var config = require('../../config/config.js');
 function sendEmail(req, cb){
 	var email = req.param('email');
 	Service.user.findByEmail(email, function(err, user){
-		if(err || !user)
-		   cb(err||new Error(), {errId: 'Email_Address_Not_Exist', err: err});
+		if(err)
+		   cb(err, {errId: 'Email_Address_Not_Exist', err: err});
 		else{
 			var accessToken = Service.token.sign({email: email, expiryAt: new Date().getTime() + config.nodemailer.password_expiry_ms });
 			var link = config.nodemailer.password_reset_link + "?token=" + accessToken;

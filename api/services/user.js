@@ -9,9 +9,9 @@ module.exports = {
 	     * @return
 	     */
 		findByEmail: function (email, cb) {
-			Model.user.findOne({'email': email}, function (err, user) {
-		        if (err)
-		            cb(err);
+			Model.user.findByEmail(email, function (err, user) {
+		        if (err || !user || user.length == 0)
+		            cb(err || new Error('Email_Not_Found'));
 		        else
 		        	cb(null, user);
 			});
