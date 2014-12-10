@@ -1,4 +1,3 @@
-var jwt = require('jsonwebtoken');
 var passport = require('passport');
 
 
@@ -11,14 +10,6 @@ function loginEmailPassword(req, email, password, cb) {
             if (err || result === false) return cb({err: 'Oops! Wrong password.'});
             return cb(null,user);
         });
-    });
-}
-
-function loginToken(req,token, cb) {
-    req.app.models.user.findOne({ 'email' :  email }, function(err, user) {
-        if (err || !user)
-            return cb(err);
-        return cb(null, user);
     });
 }
 
@@ -45,7 +36,7 @@ module.exports = {
                     return res.json(500, {message: 'Check your email'});
                 }
                 var accessToken = Service.token.sign({ id: user.id });
-                return res.json({access_token: accessToken});
+                return res.json({accessToken: accessToken});
             });
         },
 
