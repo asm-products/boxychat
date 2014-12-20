@@ -1,0 +1,24 @@
+{
+  "camelcase": true,
+  "nonbsp": true,
+  "noempty": true,
+  "unused": "vars",
+  "maxdepth": 3,
+  "maxcomplexity": 10,
+  "asi": false,
+  "expr": true,
+  "loopfunc": true,
+  "curly": false,
+  "evil": true,
+  "white": true,
+  "undef": true,
+  "browser": true,
+  "node": true,
+  "trailing": true,
+  "indent": 4,
+  "latedef": true,
+  "newcap": true,
+  "predef": [
+    "Service"
+  ]
+}

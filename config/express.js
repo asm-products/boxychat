@@ -1,11 +1,10 @@
 var express = require('express');
-var favicon = require('serve-favicon');
+// var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
-var session = require('express-session');
 
 
 module.exports = function (app, config, passport, mountMiddlewareCb) {

@@ -10,9 +10,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        req.app.models.User.findOne(id, function(err, user) {
-            done(err, user);
-        });
+
     });
 
     passport.use(new BearerStrategy(
