@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha test/controller.test.js -R spec"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
@@ -32,8 +33,12 @@
     "nodemailer": "^0.6.1"
   },
   "devDependencies": {
+    "chai": "^1.10.0",
     "gulp": "~3.8.8",
+    "gulp-livereload": "~2.1.1",
     "gulp-nodemon": "~1.0.4",
-    "gulp-livereload": "~2.1.1"
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0"
   }
 }
