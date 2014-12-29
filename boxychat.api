@@ -1,0 +1,61 @@
+FORMAT: 1A
+
+# BoxyChat
+BoxyChat is a real time communication tool, it let's you send messages, share files, etc
+
+# Group Auth
+Auth related resources for **BoxyChat API**
+
+## Auth - Signup [/user]
+### Create a new account [POST]
++ Request (application/json)
+
+        { "email": "email@test.com", "password": "donothackme" }
+
++ Response 201 (application/json)
+
+        { "id": "1", "email": "email@test.com" }
+
++ Response 500 (application/json)
+
+        { "error": {
+            "code": 101,
+            "message": "Email already exists" 
+            }
+        }
+
+## Auth - Activate [/activate/{token}]
+
++ Parameters
+    + token (required, string, `KIUDEHUID7E9830IU23JDH2`) ... String `Token` of the Account to perform activation with.
+
+### Activate a newly create account [GET]
++ Response 200 (application/json)
+
+        { "message": "ok" }
+
++ Response 500 (application/json)
+
+        { "error": {
+            "code": "110",
+            "message": "Token was not found"
+            }
+        }
+
+## Auth - Login [/login]
+### Make Login [POST]
++ Request (application/json)
+
+        { "email": "email@test.com", "password": "donothackme" }
+
++ Response 200 (application/json)
+
+        { "access_token": "UHD7897U389IHE378Z3" }
+
++ Response 500 (application/json)
+
+        { "error": {
+            "code": 120,
+            "message": "Wrong credentials 
+            }
+        }
