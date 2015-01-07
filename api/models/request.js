@@ -4,16 +4,16 @@ module.exports = {
 				type: 'string',
 				index: true
 			},
-			owner: {
-				model:'User'
-			},
 			from: {
 				model:'User'
 			},
-			text: 'string',
-			reference: 'string',
-			name: 'string',
+			to: {
+				model: 'User'
+			},
+			email: {
+				type: 'string',
+				index: true
+			},
 			status: 'string'
-		},
-
+		}
 };
