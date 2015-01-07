@@ -17,6 +17,10 @@ module.exports = {
         activated: 'boolean',
         activationToken: 'string',
         token: 'string',
+        
+        contacts:  'array',
+        groups: 'array',
+        projects: 'array',
 
         validPassword: function(password, cb) {
             Service.crypt.compare(password, this.password, function (error, response) {
