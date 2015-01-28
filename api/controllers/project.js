@@ -19,11 +19,13 @@ module.exports = {
 	        	Model.project.create(project, function(err, project){
 	        		if(err)
 	        			return res.json({status: 'error', data: err});
-	        		else{ 			
+	        		else{ 	
+	        			//update user.projects as well
+    					//need to move this to service class
 	        			Model.user.findOne(req.param('owner'), function(err, user){
 	        				if(err)
         						console.log("can't find user with id: " + req.param('owner'));
-	        				else{
+	        				else{	        				
 	        					user.projects.push({id: project.id});
 	        					Model.user.update(user.id, {'projects':user.projects}).exec(function(err, re){
 	        						if(err)
@@ -43,18 +45,51 @@ module.exports = {
 		     * @param {string}   user           user id
 		     */
 	        'post /project/addUser': function (req, res, next) {
-	        	Model.project.findOneById(req.param('project'), function(err, project){
+	        	Model.project.findOne(req.param('project'), function(err, project){
 	        		if(err)
 	        			return res.json({status: 'error', data: err});
-	        		else{
-	        			project.users.push({id:req.param('user')});
-	        			
+	        		else{	        			
+	        			project.users.push({id:req.param('user')});	        			
 	        			Model.project.update(project.id, {users : project.users}).exec(function(err, re){
 	        				if(err)
 	                			return res.json({status: 'error', data: err});
-	                		else	     			
+	                		else{	     			
+	                			//need to update user.projects as well
+	        					//and move this to service class
 	                			return res.json({status: 'success', data: re});
-	        			};
+	                		}
+	        			});
+	        		}
+	        	});
+	        },
+	        
+	        /**
+		     * add user to project
+		     * 
+		     * @param {string}   project        project id
+		     * @param {string}   user           user id
+		     */
+	        'post /project/removeUser': function (req, res, next) {
+	        	Model.project.findOne(req.param('project'), function(err, project){
+	        		if(err)
+	        			return res.json({status: 'error', data: err});
+	        		else{	        			
+	        			var left = project.users.filter(function(el){return el.id!= req.param('user');});	        			
+	        			Model.project.update(project.id, {users : left}).exec(function(err, re){
+	        				if(err)
+	                			return res.json({status: 'error', data: err});
+	                		else{	     			
+	                			//need to update user.projects as well
+	        					//and move this to service class
+	                			Model.user.findOne(user, function(err, usr){   
+	                				var left = usr.projects.filter(function(el){return el.id!=req.param('project');})
+	                				Model.user.update(usr.id, {projects: left}).exec(function(err, re){
+	                					console.log(err + re);
+	                				});
+	                			});
+	                			return res.json({status: 'success', data: re});
+	                		}
+	        			});
 	        		}
 	        	});
 	        },
