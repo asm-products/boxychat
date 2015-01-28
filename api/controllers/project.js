@@ -27,7 +27,7 @@ module.exports = {
         						console.log("can't find user with id: " + req.param('owner'));
 	        				else{	        				
 	        					user.projects.push({id: project.id});
-	        					Model.user.update(user.id, {'projects':user.projects}).exec(function(err, re){
+	        					user.save(function(err, re){
 	        						if(err)
 	        							console.log("update user.project fails: " + user.id + " - " + project.id);
 	        					});
@@ -50,7 +50,7 @@ module.exports = {
 	        			return res.json({status: 'error', data: err});
 	        		else{	        			
 	        			project.users.push({id:req.param('user')});	        			
-	        			Model.project.update(project.id, {users : project.users}).exec(function(err, re){
+	        			project.save(function(err, re){
 	        				if(err)
 	                			return res.json({status: 'error', data: err});
 	                		else{	     			

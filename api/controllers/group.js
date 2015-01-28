@@ -30,7 +30,7 @@ module.exports = {
     						console.log("can't find user with id: " + userId);
         				else{
         					user.groups.push({id: group.id});
-        					Model.user.update(user.id, {'groups':user.groups}).exec(function(err, re){
+        					user.save(function(err, re){
         						if(err)
         							console.log("update user.groups fails: " + user.id + " - " + group.id);
         					});
@@ -57,7 +57,7 @@ module.exports = {
         			return res.json({status: 'error', data: err});
         		else{	     			
         			group.users.push({id:user});
-        			Model.group.update(group.id, {users : group.users}).exec(function(err, re){
+        			group.save(function(err, re){
         				if(err)
                 			return res.json({status: 'error', data: err});
                 		else{
