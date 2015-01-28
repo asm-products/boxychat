@@ -15,5 +15,9 @@ module.exports = {
 				index: true
 			},
 			status: 'string'
+		},
+		beforeCreate: function (request, cb) {
+			request.status = 'new';
+			return cb(null, request);
 		}
 };
