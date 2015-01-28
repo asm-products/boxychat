@@ -1,43 +1,81 @@
 module.exports = {
-		'post /project/create': function (req, res, next) {
-			var params = req.params.all();
-			Project.create({name: params.company}, function (err, company) {
-			});
-		},
-		'post /project/remove: function (req, res, next) {
-		},
-		'post /project/update: function (req, res, next) {
-		},
-		'get /ownProjects': function(req, res, next) {
-			Model.project.find({people: req.session.user.id}).exec(function (err, projects) {
-				var returnProjects = [];
-				if(projects) {
-					projects.forEach(function(el) {
-						Model.project.subscribe(req.socket, el.id, ['update']);
-						returnProjects.push({id: el.id, name: el.name, slug: el.slug});
-					});
-				}
-				res.json(returnProjects);
-			});
-		},
-		/**
-		 * Description
-		 * @method join
-		 * @param {} req
-		 * @param {} res
-		 * @param {} next
-		 * @return
-		 */
-		'post /project/join': function (req, res, next) {
-			var roomId = req.params.roomId;
-			Model.group.findOne(roomId).exec(function findOneCB(err, found) {
-				if (found) {
-					found.users.forEach(function (element) {
-						if (element == req.session.user.id) {
-							return Model.group.subscribe(req, roomId, ['message']);
-						}
-					});
-				}
-			});
+		model : 'project',
+		actions : {
+			/**
+		     * create project by owner
+		     * 
+		     * @param {string}   name            project name
+		     * @param {string}   type            project type
+		     * @param {string}   owner           project owner id
+		     */
+	        'post /project/create': function (req, res, next) {
+	        	var project = {
+	        	name: req.param('name'),
+	        	type: req.param('type'),
+	        	owner: req.param('owner'),
+	        	users: [{id: req.param('owner')}]
+	        	};
+	        	
+	        	Model.project.create(project, function(err, project){
+	        		if(err)
+	        			return res.json({status: 'error', data: err});
+	        		else{ 			
+	        			Model.user.findOne(req.param('owner'), function(err, user){
+	        				if(err)
+        						console.log("can't find user with id: " + req.param('owner'));
+	        				else{
+	        					user.projects.push({id: project.id});
+	        					Model.user.update(user.id, {'projects':user.projects}).exec(function(err, re){
+	        						if(err)
+	        							console.log("update user.project fails: " + user.id + " - " + project.id);
+	        					});
+	        				}
+	        			});
+	        			return res.json({status: 'success', data: project});
+	        		}
+	        	});	
+	        },
+	        
+	        /**
+		     * add user to project
+		     * 
+		     * @param {string}   project        project id
+		     * @param {string}   user           user id
+		     */
+	        'post /project/addUser': function (req, res, next) {
+	        	Model.project.findOneById(req.param('project'), function(err, project){
+	        		if(err)
+	        			return res.json({status: 'error', data: err});
+	        		else{
+	        			project.users.push({id:req.param('user')});
+	        			
+	        			Model.project.update(project.id, {users : project.users}).exec(function(err, re){
+	        				if(err)
+	                			return res.json({status: 'error', data: err});
+	                		else	     			
+	                			return res.json({status: 'success', data: re});
+	        			};
+	        		}
+	        	});
+	        },
+	        
+	        /**
+		     * get projects by owner
+		     * 
+		     * @param {string}   owner           project owner id
+		     */
+	        'get /project/ownedBy': function(req, res, next) {
+				Model.project.findByOwner(req.param("owner"), function (err, projects) {
+					var returnProjects = [];
+					if(projects) {
+						projects.forEach(function(el) {
+							//Model.project.subscribe(req.socket, el.id, ['update']);
+							returnProjects.push({id: el.id, name: el.name, slug: el.slug});
+						});
+					}
+					res.json(returnProjects);
+				});
+			},
+			
 		}
 };

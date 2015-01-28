@@ -2,7 +2,10 @@ module.exports = {
 		identity: 'group',
 		
 		attributes: {
-			name: 'string',
+			name: {
+				type: 'string', 
+				unique: true
+			},
 			type: {
 				type: 'string',
 				index: true

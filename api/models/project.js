@@ -10,16 +10,12 @@ module.exports = {
 				unique: true
 			},
 			type: 'String',
-			conversation: 'String',
 			owner: 'String',
-			people: {
+			users: {
 				type: 'Array',
 				index: true
 			},
-			groups: {
-				collection: 'Group',
-				via: 'project'
-			}
+
 		},
 		beforeCreate: function (project, cb) {
 			project.slug = slug(project.name);
