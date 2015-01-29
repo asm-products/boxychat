@@ -20,7 +20,7 @@ exports.orm = {
         'default': {
             adapter: 'mongo',
             host: 'localhost',
-            database: 'boxychat'
+            database: 'boxychat-test'
         }
     },
     defaults: {
