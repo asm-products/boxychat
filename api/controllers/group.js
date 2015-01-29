@@ -60,14 +60,13 @@ module.exports = {
         			group.save(function(err, re){
         				if(err)
                 			return res.json({status: 'error', data: err});
-                		else{
+                		else
                 			//code update user.groups
                 			//similar to create method above
-                			return res.json({status: 'success', data: re});
-                		}
+                			return res.json({status: 'success', data: re});               		
         			});
         		}
-        	}       		       	       	
+        	});       		       	       	
         },
         
         /**
@@ -85,7 +84,7 @@ module.exports = {
         			return res.json({status: 'error', data: err});
         		else{	     			
         			var left = group.users.filter(function(el){ return el.id!=user;})
-        			Model.group.update(group.id, {users : left}).exec(function(err, re){
+        			group.update({users : left}).exec(function(err, re){
         				if(err)
                 			return res.json({status: 'error', data: err});
                 		else{
@@ -102,9 +101,9 @@ module.exports = {
                 		}
         			});
         		}
-        	}       		       	       	
+        	});       		       	       	
         },
         
        
-        
     }
+   }

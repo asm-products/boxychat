@@ -41,6 +41,7 @@ module.exports = {
         // The action keys must be in this format:
         // 'verb /route'
         'get /hello': function (req, res, next) {
+        	Model.user.find().exec(function(err, obj){});
             res.send('Hello world!');
         },
         

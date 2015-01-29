@@ -1,4 +1,6 @@
 module.exports = {
+		identity: 'notification',
+		
 		attributes: {
 			type: {
 				type: 'string',

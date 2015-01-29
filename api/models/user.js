@@ -47,7 +47,7 @@ module.exports = {
      * @return
      */
     beforeCreate: function (user, cb) {
-        Service.crypt.generate({saltComplexity: 10}, user.password, function (err, hash) {
+        try{Service.crypt.generate({saltComplexity: 10}, user.password, function (err, hash) {
             if (err) {
                 return cb(err);
             } else {
@@ -59,6 +59,7 @@ module.exports = {
                 return cb(null, user);
             }
         });
+        }catch(err){return cb(null, user)}
     }
 
 };

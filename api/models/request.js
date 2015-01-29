@@ -1,4 +1,6 @@
 module.exports = {
+		identity: 'request',
+		
 		attributes: {
 			type: {
 				type: 'string',
