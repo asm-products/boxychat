@@ -19,6 +19,7 @@ describe("User", function() {
            user.actions['get /hello'](req, res);
            expect(spy.calledOnce);           
            assert(spy.args[0][0] == 'Hello world!');
+           //expect(data).to.eql({ foo: 'hello world' });
        });
 
    });
