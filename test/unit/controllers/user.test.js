@@ -9,7 +9,7 @@ Model.user = {
 		find: function() { return {exec: function(callback){return callback}}},
 		create: function(user, callback) {callback({},{})}
 };
-describe("Routes", function() {
+describe("User", function() {
    describe("say hello", function() {
 
        it("should say hello", function() {
