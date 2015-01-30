@@ -65,6 +65,16 @@ describe('UserController', function() {
     	.expect(200).expect(/success/).expect(/access_token/).end(done);
     });
     
+    it('passwordReset - user email address not exists', function (done) {
+    	api.post('/user/passwordReset').send({email:'notexist@test.com'})
+    	.expect(500).expect(/err/).end(done);
+    });
+    
+    it('passwordReset - user email address exists', function (done) {
+    	api.post('/user/passwordReset').send({email:'test@test.com', password:'q1w2e3'})
+    	.expect(200).expect(/success/).end(done);
+    });
+    
   });
 
 });
