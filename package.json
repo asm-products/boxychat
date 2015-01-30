@@ -39,6 +39,7 @@
     "supertest":"0.15.0 ",
     "sinon":"*",
     "chai":"*",
-    "mocha":"*"
+    "mocha":"*",
+    "assert": "*"
   }
 }
