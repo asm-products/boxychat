@@ -45,7 +45,12 @@ module.exports = {
             res.send('Hello world!');
         },
         
-        'get /forgotpassword': function(req, res, next){
+        /**
+	     * user provides email address and system send the password link 
+	     * 
+	     * @param {string}   email            user's email address
+	     */
+        'post /forgotpassword': function(req, res, next){
         	var cb = function(err, msg){
         		if(err)
         			return res.json({status: 'error', data: msg});

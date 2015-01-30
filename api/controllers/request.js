@@ -9,7 +9,7 @@ module.exports = {
 			 * @param {string}   to            to user id
 			 *
 			 */
-			'post /request/createInvite' : function(req, res, next){
+			'post /createInvite' : function(req, res, next){
 				var request = {
 						from : req.param('from'),
 						to : req.param('to'),
@@ -29,7 +29,7 @@ module.exports = {
 			 * @param {string}   request            request id
 			 * @param {string}   status            status string in {delivered, accepted, refused}
 			 */
-			'post /request/updateStatus' : function(req, res, next){
+			'post /updateStatus' : function(req, res, next){
 				Model.request.findOne(request).exec(function(err, request){
 					request.status = req.param('status');
 					request.save(function(err){
@@ -47,7 +47,7 @@ module.exports = {
 			 * request has life cycle: new, delivered, accepted, refused
 			 * this will get all requests which have status of new or delivered
 			 */
-			'post /request/getForUser' : function(req, res, next){
+			'post /getForUser' : function(req, res, next){
 				Model.request.find({to: req.param('user'), status : ['new', 'delivered']}).exec(function(err, requests){
 					if(err) 
 						return res.json({status: 'error', data: err});

@@ -9,7 +9,7 @@ module.exports = {
 	     * @param {string}   project         id of the project the group belongs to	optional
 	     * @param {string}   owner           group owner id
 	     */
-        'post /group/create': function (req, res, next) {
+        'post /create': function (req, res, next) {
         	var userId = req.param('owner');
         	var group = {
         	name: req.param('name'),
@@ -49,7 +49,7 @@ module.exports = {
 	     * @param {string}   user            user id
 	     */
         
-        'post /group/addUser': function (req, res, next) {
+        'post /addUser': function (req, res, next) {
         	var grp = req.param('group');
         	var user = req.param('user');
         	Model.group.findOne(grp, function (err, group) {
@@ -76,7 +76,7 @@ module.exports = {
 	     * @param {string}   group            group id
 	     * @param {string}   user            user id
 	     */       
-        'post /group/removeUser': function (req, res, next) {
+        'post /removeUser': function (req, res, next) {
         	var grp = req.param('group');
         	var user = req.param('user');
         	Model.group.findOne(grp, function (err, group) {

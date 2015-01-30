@@ -8,7 +8,7 @@ module.exports = {
 		     * @param {string}   type            project type
 		     * @param {string}   owner           project owner id
 		     */
-	        'post /project/create': function (req, res, next) {
+	        'post /create': function (req, res, next) {
 	        	var project = {
 	        	name: req.param('name'),
 	        	type: req.param('type'),
@@ -44,7 +44,7 @@ module.exports = {
 		     * @param {string}   project        project id
 		     * @param {string}   user           user id
 		     */
-	        'post /project/addUser': function (req, res, next) {
+	        'post /addUser': function (req, res, next) {
 	        	Model.project.findOne(req.param('project'), function(err, project){
 	        		if(err)
 	        			return res.json({status: 'error', data: err});
@@ -69,7 +69,7 @@ module.exports = {
 		     * @param {string}   project        project id
 		     * @param {string}   user           user id
 		     */
-	        'post /project/removeUser': function (req, res, next) {
+	        'post /removeUser': function (req, res, next) {
 	        	Model.project.findOne(req.param('project'), function(err, project){
 	        		if(err)
 	        			return res.json({status: 'error', data: err});
@@ -99,7 +99,7 @@ module.exports = {
 		     * 
 		     * @param {string}   owner           project owner id
 		     */
-	        'get /project/ownedBy': function(req, res, next) {
+	        'get /ownedBy': function(req, res, next) {
 				Model.project.findByOwner(req.param("owner"), function (err, projects) {
 					var returnProjects = [];
 					if(projects) {
