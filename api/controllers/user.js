@@ -75,7 +75,7 @@ module.exports = {
         			else if(!model || model.length == 0) 
         				return res.json(400, { err: 'email address not found' });
         			else	
-        				res.json(model);
+        				res.json({status: 'success', data: model});
         		});
         	});
         },
