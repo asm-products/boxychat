@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "development";//make sure you use the same environment as your test server
+/*process.env.NODE_ENV = "development";//make sure you use the same environment as your test server
 
 var Waterline = require('waterline'),
 mongoAdapter = require('sails-mongo'),
@@ -11,6 +11,7 @@ assert = require('assert');
 
 var rootPath = path.normalize(__dirname + '../../../../api');
 var models = requireAll(rootPath + '/models');
+*/
 
 var request = require('supertest');
 var chai = require('chai');
@@ -25,7 +26,7 @@ describe('UserController', function() {
   describe('Routes', function() {
 	  var query;
 	  
-	  before(function (done) {
+	  /*before(function (done) {
 			var waterline = new Waterline();		
 			
 			//Load models into waterline
@@ -41,7 +42,7 @@ describe('UserController', function() {
 			});
 			
 			
-		});  
+		});  */
 	  
 	  
     it('Welcome to Boxychat', function (done) {
