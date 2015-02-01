@@ -9,10 +9,8 @@ var api = request('http://localhost:3000');//this needs to move to a configurati
 describe('GroupController', function() {
 
   describe('Routes', function() {  
-    var group = new Date().getTime();
-    var owner = '54cbffc5d728946c0fe9e3af';
-    var grp;
-    var usr;
+    var group = new Date().getTime(), grp, usr;
+    
     before(function(done) {
     	api.get('/user').end(function(err, res){usr = res.body[0].id; done()}); 
     });
@@ -29,6 +27,7 @@ describe('GroupController', function() {
     	.expect(200).expect(/error/).expect(/E11000 duplicate key error/).end(done);
     });
     
+    //this will fail, need to figure out how waterline enforce FK rel
     it('create unsuccessfully - owner not exit', function (done) {
     	api.post('/group/create')
     	.send({name:new Date().getTime(), type:'test',owner: 'notexist', project: 'dsdsd'})
