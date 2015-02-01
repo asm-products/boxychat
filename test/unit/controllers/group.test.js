@@ -18,7 +18,7 @@ describe("Group", function() {
            req = res = next = {};
            req.param = function(v) {return v;};
            spy = res.json = sinon.spy();        
-           group.actions['post /group/create'](req, res, next);
+           group.actions['post /create'](req, res, next);
            expect(spy.calledOnce);           
            assert(spy.args[0][0].status === 'error');
            
@@ -37,7 +37,7 @@ describe("Group", function() {
            req = res = next = {};
            req.param = function(v) {return v;};
            spy = res.json = sinon.spy();        
-           group.actions['post /group/create'](req, res, next);
+           group.actions['post /create'](req, res, next);
            expect(spy.calledOnce);           
            assert(spy.args[0][0].status === 'success');
            

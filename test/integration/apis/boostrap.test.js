@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "development";//make sure you use the same environment as your test server
+process.env.NODE_ENV = "test";//make sure you use the same environment as your test server
 
 var Waterline = require('waterline'),
 mongoAdapter = require('sails-mongo'),
@@ -12,22 +12,42 @@ assert = require('assert');
 var rootPath = path.normalize(__dirname + '../../../../api');
 var models = requireAll(rootPath + '/models');
 
+var waterline = new Waterline();
+
 before(function(done) {
-	var waterline = new Waterline();		
-	
+			
 	//Load models into waterline
 	_(models).each(function (model) {
 		waterline.loadCollection(Waterline.Collection.extend(new baseModel(model)));
 	});
-			
-	waterline.initialize(config.orm, function(err, colls) {
-		if (err) return done(err);
+	
+	var orm = {
+		    adapters: {
+		        'mongo': mongoAdapter
+		    },
+		    connections: {
+		    	'default': {
+		            adapter: 'mongo',
+		            host: 'localhost',
+		            database: 'boxychat'
+		        },
+		    },
+		    defaults: {
+		        migrate: 'drop'
+		    }
+	};
+	
+	
+	waterline.initialize(orm, function(err, colls) {
+		//if (err) return done(err);
 		query = colls.collections.user;						
 		query.create({email:'test@test.com', password:'q1w2e3'}, function(err, obj){});				
 		done();
 	});
+	
 });
 
 after(function(done) {
-	  done();
+	waterline.teardown(done);
+	  //;
 });

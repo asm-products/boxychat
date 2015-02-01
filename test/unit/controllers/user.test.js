@@ -5,14 +5,15 @@ var assert = require('assert');
 
 var user = require('../../../api/controllers/user.js');
 Model = {};
-Model.user = {
-		find: function() { return {exec: function(callback){return callback}}},
-		create: function(user, callback) {callback({},{})}
-};
+
 describe("User", function() {
    describe("say hello", function() {
 
        it("should say hello", function() {
+    	   Model.user = {
+    				find: function() { return {exec: function(callback){return callback}}},
+    				create: function(user, callback) {callback({},{})}
+    		};
            var req,res,spy;
            req = res = {};
            spy = res.send = sinon.spy();        

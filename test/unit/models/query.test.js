@@ -13,21 +13,28 @@ var rootPath = path.normalize(__dirname + '../../../../api');
 var models = requireAll(rootPath + '/models');
 
 describe('Collection user', function () {
+	
 	describe('.create() .find()', function () {
 		var query;
 		before(function (done) {
-			var waterline = new Waterline();		
+			var waterline = new Waterline();	
+			var Base = function (model) {
+			    return _.extend({
+			        connection: 'test'
+			    }, model);
+			};
 			
 			//Load models into waterline
 			_(models).each(function (model) {
-				waterline.loadCollection(Waterline.Collection.extend(new baseModel(model)));
+				waterline.loadCollection(Waterline.Collection.extend(new Base(model)));
 			});
 					
 			waterline.initialize(config.orm, function(err, colls) {
 				if (err) return done(err);
 				query = colls.collections.user;				
-				done();
+				done(); 
 			});
+			
 		});
 		
 		it('should create one user', function (done) {
@@ -43,8 +50,6 @@ describe('Collection user', function () {
 				done();
 			});
 		});
-		
-		
 		
 	});
 });
