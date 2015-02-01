@@ -17,11 +17,11 @@ exports.orm = {
         'mongo': mongoAdapter
     },
     connections: {
-        'default': {
+    	'test': {
             adapter: 'mongo',
             host: 'localhost',
             database: 'boxychat-test'
-        }
+        },
     },
     defaults: {
         migrate: 'drop'
