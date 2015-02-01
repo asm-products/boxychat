@@ -23,9 +23,11 @@ module.exports = {
 	        			//update user.projects as well
     					//need to move this to service class
 	        			Model.user.findOne(req.param('owner'), function(err, user){
-	        				if(err)
+	        				if(err | !user)
         						console.log("can't find user with id: " + req.param('owner'));
-	        				else{	        				
+	        				else{	  
+	        					if(!user.projects)
+	        						user.projects = [];
 	        					user.projects.push({id: project.id});
 	        					user.save(function(err, re){
 	        						if(err)

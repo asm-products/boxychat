@@ -26,9 +26,11 @@ module.exports = {
         			//code update user.groups with newly created group
         			//should move to service class
         			Model.user.findOne(userId, function(err, user){
-        				if(err)
+        				if(err | !user )
     						console.log("can't find user with id: " + userId);
         				else{
+        					if(!user.groups)
+        						user.groups = [];
         					user.groups.push({id: group.id});
         					user.save(function(err, re){
         						if(err)
