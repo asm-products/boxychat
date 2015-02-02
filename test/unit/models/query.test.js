@@ -7,7 +7,8 @@ path = require('path'),
 baseModel = require('../../../lib/model'),
 requireAll = require('require-all'),
 config = require('../../../config/config'),
-assert = require('assert');
+chai = require('chai'),
+expect = chai.expect;
 
 var rootPath = path.normalize(__dirname + '../../../../api');
 var models = requireAll(rootPath + '/models');
@@ -15,8 +16,8 @@ var models = requireAll(rootPath + '/models');
 describe('Collection user', function () {
 	
 	describe('.create() .find()', function () {
-		var query;
-		before(function (done) {
+		//var query;
+		/*before(function (done) {
 			var waterline = new Waterline();	
 			var Base = function (model) {
 			    return _.extend({
@@ -35,18 +36,19 @@ describe('Collection user', function () {
 				done(); 
 			});
 			
-		});
+		});*/
 		
 		it('should create one user', function (done) {
 			query.create({email:'test@test.com', password:'q1w2e3'}, function(err, obj){
-				query.find().exec(function(err, obj){
-					console.log(obj);
-				})
+				if(err) done(err);
+				expect(obj).to.not.be.undefined;
+				expect(obj).to.not.be.empty;
+				expect(obj.email).to.equal('test@test.com');
 			});
 			
 			query.find().exec(function (err, obj) {
-				if(err) {console.log(err); return done(err);}
-				console.log(obj);
+				if(err) {return done(err);}
+				expect(obj).to.not.be.empty;
 				done();
 			});
 		});

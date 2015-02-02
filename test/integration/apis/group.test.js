@@ -11,7 +11,7 @@ describe('Group APIs', function() {
   describe('Routes', function() {  
     var group = new Date().getTime(), grp, usr;
      
-    before(function(done) {
+    before(function(done) { 
     	api.get('/user').end(function(err, res){usr = res.body[0].id; done()}); 
     });
      
