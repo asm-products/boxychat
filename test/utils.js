@@ -8,7 +8,10 @@ module.exports.app = app;
 before(function (done) {
     function checkState() {
         if(app.started && app.started === true) {
-            return done()
+        	return app.models.user.create({email:'test@test.com', password:'q1w2e3'}, function(err, obj){
+        		return done();
+        	});
+        	
         }
         return setTimeout(checkState, 100)
     }
