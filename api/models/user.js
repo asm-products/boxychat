@@ -17,6 +17,10 @@ module.exports = {
         activated: 'boolean',
         activationToken: 'string',
         token: 'string',
+        
+        contacts:  'array',
+        groups: 'array',
+        projects: 'array',
 
         validPassword: function(password, cb) {
             Service.crypt.compare(password, this.password, function (error, response) {
@@ -43,7 +47,7 @@ module.exports = {
      * @return
      */
     beforeCreate: function (user, cb) {
-        Service.crypt.generate({saltComplexity: 10}, user.password, function (err, hash) {
+        try{Service.crypt.generate({saltComplexity: 10}, user.password, function (err, hash) {
             if (err) {
                 return cb(err);
             } else {
@@ -55,6 +59,7 @@ module.exports = {
                 return cb(null, user);
             }
         });
+        }catch(err){return cb(null, user)}
     }
 
 };

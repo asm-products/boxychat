@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node_modules/.bin/mocha -w"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
@@ -27,6 +28,7 @@
     "sails-disk": "^0.10.4",
     "sails-mongo": "^0.10.4",
     "serve-favicon": "~2.0.1",
+    "slug": "^0.5.0",
     "socket.io": "^1.2.0",
     "waterline": "^0.10.13",
     "nodemailer": "^0.6.1"
@@ -34,6 +36,11 @@
   "devDependencies": {
     "gulp": "~3.8.8",
     "gulp-nodemon": "~1.0.4",
-    "gulp-livereload": "~2.1.1"
+    "gulp-livereload": "~2.1.1",
+    "supertest":"0.15.0 ",
+    "sinon":"*",
+    "chai":"*",
+    "mocha":"*",
+    "assert": "*"
   }
 }
