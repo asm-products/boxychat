@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "node_modules/.bin/mocha -w"
+    "test": "node_modules/.bin/mocha ./test --recursive"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",

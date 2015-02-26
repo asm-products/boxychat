@@ -91,7 +91,10 @@ orm.initialize(config.orm, function (err, models) {
     });
 
     server.listen(config.app.port, function () {
+        app.started = true;
         console.log(config.app.name + ' server listening on port ' + config.app.port);
     });
 
 });
+
+module.exports.app = app;

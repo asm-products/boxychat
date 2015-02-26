@@ -1,13 +1,13 @@
 var request = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = request('http://localhost:3000');//this needs to move to a configuration
+var app = require('../../utils').app;
+var api = request(app);//this needs to move to a configuration
 
 /*
  * to run this, you need the application running
  */
 describe('Group APIs', function() {
-
   describe('Routes', function() {  
     var group = new Date().getTime(), grp, usr;
      
