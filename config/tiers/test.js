@@ -35,6 +35,7 @@ exports.secrets = {
 
 //MAIL configuration
 exports.nodemailer = {
+    type: "Stub",
           usessl: true,
           port: 465,
           name: 'boxychat support',

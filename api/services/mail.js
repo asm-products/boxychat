@@ -13,7 +13,7 @@ module.exports = {
     send: function (email, cb) {
 
         /** sets up the modemailer smtp transport */
-        var transport = nodemailer.createTransport("SMTP", {
+        var transport = nodemailer.createTransport(config.nodemailer.type, {
             service: config.nodemailer.service,
             auth: {
                 user: config.nodemailer.user,
