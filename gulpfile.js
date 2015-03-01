@@ -20,7 +20,9 @@ gulp.task('lint', function () {
 
 gulp.task('mocha', function () {
   return gulp.src('./test/**/*.js')
-    .pipe(mocha({ reporter: 'list' }));
+    .pipe(mocha({ reporter: 'list' })).once('end', function () {
+      process.exit();
+    });
 });
 
 gulp.task('test', ['lint', 'mocha']);
