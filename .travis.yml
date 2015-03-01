@@ -6,3 +6,7 @@ node_js:
 
 services:
   - mongodb
+
+before_install:
+  - npm install -g gulp
+  - npm install -g mocha
