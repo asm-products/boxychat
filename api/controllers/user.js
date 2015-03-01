@@ -10,23 +10,24 @@ function sendEmail(req, cb){
 		if(err)
 		   cb(err, {errId: 'Email_Address_Not_Exist', err: err});
 		else{
-			var accessToken = Service.token.sign({email: email, expiryAt: new Date().getTime() + config.nodemailer.password_expiry_ms });
-			var link = config.nodemailer.password_reset_link + "?token=" + accessToken;
+			var accessToken = Service.token.sign({email: email, expiryAt: new Date().getTime() + config.nodemailer.passwordExpiryMs });
+			var link = config.nodemailer.passwordResetLink + "?token=" + accessToken;
 			var msg = '<html>Hello there, </br>Greetings from boxychat, this is your password reset link, click <a href="' + link + '">here</a></html>';
 			console.log("send password reset email out to " + email);
 			var emailObj = {
 					'name' : config.nodemailer.name,
 					'from' : config.nodemailer.from,
     				'to' :		email,
-    				'subject' : config.nodemailer.passwordReset_subject,
+    				'subject' : config.nodemailer.passwordResetSubject,
     				'messageHtml' : msg
     		};  
     		
     		Service.mail.send(emailObj, function(err, response){
     			if(err)
-    				 cb(err, {errId: 'Send_Email_Failure', err: err});
+    				cb(err, {errId: 'Send_Email_Failure', err: err});
     			else{
-    				 cb(null, {access_token: accessToken});
+                    /*jshint camelcase: false */
+    				cb(null, {access_token: accessToken});
     			}
     		});
 			
@@ -73,13 +74,13 @@ module.exports = {
         'post /passwordReset' : function(req, res, next){
         	var email = req.param('email');
         	var pass = req.param('password');
-        	var confirm = req.param('confirm');
+        	//var confirm = req.param('confirm');
         	
         	Service.crypt.generate({saltComplexity: 10}, pass, function (err, hash) {
         		console.log("password for " + email + " is reset");
         		Model.user.update({email: email}, {password: hash}, function(err, model){
         			if(err) return res.json(500, { err: err });
-        			else if(!model || model.length == 0) 
+        			else if(!model || model.length === 0) 
         				return res.json(400, { err: 'email address not found' });
         			else	
         				res.json({status: 'success', data: model});

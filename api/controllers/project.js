@@ -83,12 +83,12 @@ module.exports = {
 	                		else{	     			
 	                			//need to update user.projects as well
 	        					//and move this to service class
-	                			Model.user.findOne(user, function(err, usr){   
-	                				var left = usr.projects.filter(function(el){return el.id!=req.param('project');})
-	                				Model.user.update(usr.id, {projects: left}).exec(function(err, re){
-	                					console.log(err + re);
-	                				});
-	                			});
+	                			// Model.user.findOne(user, function(err, usr){
+	                			// 	var left = usr.projects.filter(function(el){return el.id!=req.param('project');})
+	                			// 	Model.user.update(usr.id, {projects: left}).exec(function(err, re){
+	                			// 		console.log(err + re);
+	                			// 	});
+	                			// });
 	                			return res.json({status: 'success', data: re});
 	                		}
 	        			});

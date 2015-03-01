@@ -34,13 +34,16 @@
     "nodemailer": "^0.6.1"
   },
   "devDependencies": {
-    "gulp": "~3.8.8",
-    "gulp-nodemon": "~1.0.4",
+    "assert": "*",
+    "chai": "*",
+    "gulp": "~3.8.11",
+    "gulp-jshint": "^1.9.2",
     "gulp-livereload": "~2.1.1",
-    "supertest":"0.15.0 ",
-    "sinon":"*",
-    "chai":"*",
-    "mocha":"*",
-    "assert": "*"
+    "gulp-mocha": "^2.0.0",
+    "gulp-nodemon": "~1.0.4",
+    "jshint-stylish": "^1.0.1",
+    "mocha": "*",
+    "sinon": "*",
+    "supertest": "0.15.0 "
   }
 }

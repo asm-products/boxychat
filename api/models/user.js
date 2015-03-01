@@ -59,7 +59,7 @@ module.exports = {
                 return cb(null, user);
             }
         });
-        }catch(err){return cb(null, user)}
+        }catch(err){return cb(null, user);}
     }
 
 };

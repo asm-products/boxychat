@@ -1,5 +1,7 @@
 var gulp = require('gulp'),
-    nodemon = require('gulp-nodemon');
+    nodemon = require('gulp-nodemon'),
+	jshint = require('gulp-jshint'),
+	mocha = require('gulp-mocha');
 
 gulp.task('develop', function () {
     nodemon({
@@ -10,6 +12,16 @@ gulp.task('develop', function () {
     });
 });
 
-gulp.task('default', [
-    'develop'
-]);
+gulp.task('lint', function () {
+  return gulp.src('./api/**/*.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('mocha', function () {
+  return gulp.src('./test/**/*.js')
+    .pipe(mocha({ reporter: 'list' }));
+});
+
+gulp.task('test', ['lint', 'mocha']);
+gulp.task('default', ['develop']);
