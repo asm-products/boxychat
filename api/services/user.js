@@ -10,7 +10,7 @@ module.exports = {
 	     */
 		findByEmail: function (email, cb) {
 			Model.user.findByEmail(email, function (err, user) {
-		        if (err || !user || user.length == 0)
+		        if (err || !user || user.length === 0)
 		            cb(err || new Error('Email_Not_Found'));
 		        else
 		        	cb(null, user);

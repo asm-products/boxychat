@@ -30,6 +30,7 @@ module.exports = {
 			 * @param {string}   status            status string in {delivered, accepted, refused}
 			 */
 			'post /updateStatus' : function(req, res, next){
+				var request = req.params();
 				Model.request.findOne(request).exec(function(err, request){
 					request.status = req.param('status');
 					request.save(function(err){
@@ -57,4 +58,4 @@ module.exports = {
 			},
 			
 		}
-}
+};

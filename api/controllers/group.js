@@ -12,11 +12,11 @@ module.exports = {
         'post /create': function (req, res, next) {
         	var userId = req.param('owner');
         	var group = {
-        	name: req.param('name'),
-        	type: req.param('type'),
-        	project: req.param('project'),
-        	owner: req.param('owner'),
-        	users: [{id: userId}]
+            	name: req.param('name'),
+            	type: req.param('type'),
+            	project: req.param('project'),
+            	owner: req.param('owner'),
+            	users: [{id: userId}]
         	};
         	
         	Model.group.create(group, function(err, group){
@@ -85,14 +85,14 @@ module.exports = {
         		if(err)
         			return res.json({status: 'error', data: err});
         		else{	     			
-        			var left = group.users.filter(function(el){ return el.id!=user;})
+        			var left = group.users.filter(function(el){ return el.id!=user;});
         			group.update({users : left}).exec(function(err, re){
         				if(err)
                 			return res.json({status: 'error', data: err});
                 		else{
                 			//code update user.groups
                 			Model.user.findOne(user, function(err, usr){
-                				var left = usr.groups.filter(function(el){return el.id!=grp;})
+                				var left = usr.groups.filter(function(el){return el.id!=grp;});
                 				Model.user.update(usr.id, {groups : left}).exec(function(err, re){ 
                 					if(err)
                 					  console.log("failed to update user.groups");	
@@ -104,8 +104,6 @@ module.exports = {
         			});
         		}
         	});       		       	       	
-        },
-        
-       
+        },   
     }
-   }
+};

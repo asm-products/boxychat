@@ -19,6 +19,7 @@
   "latedef": true,
   "newcap": true,
   "predef": [
-    "Service"
+    "Service",
+    "Model"
   ]
 }
