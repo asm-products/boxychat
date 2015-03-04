@@ -4,7 +4,7 @@ module.exports = function (app) {
 
     // Index
     app.get('/', function (req, res, next) {
-        res.send('Welcome to ' + req.app.config.name + '!');
+        res.send('Welcome to ' + req.app.config.app.name + '!');
     });
 
 };

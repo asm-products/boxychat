@@ -1,5 +1,4 @@
 var nodemailer = require('nodemailer');
-var config = require('../../config/config.js');
 
 module.exports = {
 
@@ -11,7 +10,7 @@ module.exports = {
      * @return
      */
     send: function (email, cb) {
-
+        var config = this.config;
         /** sets up the modemailer smtp transport */
         var transport = nodemailer.createTransport(config.nodemailer.type, {
             service: config.nodemailer.service,

@@ -1,11 +1,10 @@
 // This controller will inherit CRUD actions from its base controller implementation
 // Go ahead and try to POST a new user to /user
 
-var config = require('../../config/config.js');
-	
 // callback of callback :(
 function sendEmail(req, cb){
 	var email = req.param('email');
+    var config = req.app.config;
 	Service.user.findByEmail(email, function(err, user){
 		if(err)
 		   cb(err, {errId: 'Email_Address_Not_Exist', err: err});
@@ -20,7 +19,7 @@ function sendEmail(req, cb){
     				'to' :		email,
     				'subject' : config.nodemailer.passwordResetSubject,
     				'messageHtml' : msg
-    		};  
+    		};
     		
     		Service.mail.send(emailObj, function(err, response){
     			if(err)
