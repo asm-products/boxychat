@@ -20,6 +20,7 @@
   "newcap": true,
   "predef": [
     "Service",
-    "Model"
+    "Model",
+    "Promise"
   ]
 }
