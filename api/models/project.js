@@ -15,6 +15,10 @@ module.exports = {
 				type: 'Array',
 				index: true
 			},
+			groups: {
+				collection: 'group',
+				via: 'project'
+			}
 
 		},
 		beforeCreate: function (project, cb) {

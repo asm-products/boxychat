@@ -18,9 +18,18 @@ module.exports = {
         activationToken: 'string',
         token: 'string',
         
-        contacts:  'array',
-        groups: 'array',
-        projects: 'array',
+        contacts: {
+            type: 'array',
+            defaultsTo: []
+        },
+        groups: {
+            type: 'array',
+            defaultsTo: []
+        },
+        projects: {
+            type: 'array',
+            defaultsTo: []
+        },
 
         validPassword: function(password, cb) {
             Service.crypt.compare(password, this.password, function (error, response) {

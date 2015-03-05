@@ -37,15 +37,6 @@ function sendEmail(req, cb){
 module.exports = {
     model: 'user', // If no model is specified, CRUD actions won't be inherited
     actions: {
-        // Custom actions can be added
-        // The action keys must be in this format:
-        // 'verb /route'
-    	//dummy api, for testing purpose
-        'get /hello': function (req, res, next) {
-        	Model.user.find().exec(function(err, obj){});
-            res.send('Hello world!');
-        },
-        
         /**
 	     * user provides email address and system send the password link 
 	     * 
@@ -86,12 +77,23 @@ module.exports = {
         		});
         	});
         },
-        
+        'get /contacts': function(req, res, next) {
+            Service.chat.getContacts('54ef99f03f86d2e33e376a75', function(err, val) {
+                res.json(val);
+            });
+        },
+        'get /contacts/:id': function(req,res,next) {
+            Service.chat.getProjectContacts(req.params.id, '54ef99f03f86d2e33e376a75', function(err, val) {
+                res.json(val);
+            });
+        },
         // Override the inherited read action
         'get /:id': function(req, res, next){
             var err = new Error('Not authorized!');
             err.status = 401;
             next(err);
-        },       
+        }
+
+              
     }
 };
