@@ -1,5 +1,3 @@
-var passport = require('passport');
-
 
 function loginEmailPassword(req, email, password, cb) {
     req.app.models.user.findOne({'email': email}, function (err, user) {

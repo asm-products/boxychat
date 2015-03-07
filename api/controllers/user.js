@@ -80,7 +80,6 @@ module.exports = {
         'get /contacts': [ 
             checkScopes(),
             function(req, res, next) {
-                console.log(req.user)
                 Service.chat.getContacts(req.user, function(err, val) {
                     res.json(val);
                 });
@@ -120,8 +119,8 @@ module.exports = {
         },
         self: function(cb) {
             Model.user.findOne(this.socket.user.id).then(function(user) {
-                cb(user)
-            })
+                cb(user);
+            });
         },
         privateMessage: function (toUser, message) {
             var that = this;
