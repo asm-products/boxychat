@@ -3,8 +3,10 @@ module.exports = {
     identity: 'user',
 
     attributes: {
-        firstName: 'string',
-        lastName: 'string',
+        name: {
+            type: 'string',
+            required: true
+        },
         email: {
             type: 'email',
             required: true,
@@ -17,7 +19,6 @@ module.exports = {
         activated: 'boolean',
         activationToken: 'string',
         token: 'string',
-        
         contacts: {
             type: 'array',
             defaultsTo: []

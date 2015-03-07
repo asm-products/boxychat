@@ -77,16 +77,23 @@ module.exports = {
         		});
         	});
         },
-        'get /contacts': function(req, res, next) {
-            Service.chat.getContacts('54ef99f03f86d2e33e376a75', function(err, val) {
-                res.json(val);
-            });
-        },
-        'get /contacts/:id': function(req,res,next) {
-            Service.chat.getProjectContacts(req.params.id, '54ef99f03f86d2e33e376a75', function(err, val) {
-                res.json(val);
-            });
-        },
+        'get /contacts': [ 
+            checkScopes(),
+            function(req, res, next) {
+                console.log(req.user)
+                Service.chat.getContacts(req.user, function(err, val) {
+                    res.json(val);
+                });
+            }
+        ],
+        'get /contacts/:id': [ 
+            checkScopes(),
+            function(req,res,next) {
+                Service.chat.getProjectContacts(req.params.id, req.user, function(err, val) {
+                    res.json(val);
+                });
+            }
+        ],
         // Override the inherited read action
         'get /:id': function(req, res, next){
             var err = new Error('Not authorized!');
@@ -95,5 +102,33 @@ module.exports = {
         }
 
               
+    },
+    sockets: {
+        connect: function() {
+            //TODO: not working for the moment
+            console.log('user connected');
+
+        },
+        disconnect :function() {
+            //TODO: not working for the moment
+            console.log('user disconnected');
+        },
+        contacts: function (cb) {
+            Service.chat.getContacts(this.socket.user.id, function(err, val) {
+                cb(val);
+            });
+        },
+        self: function(cb) {
+            Model.user.findOne(this.socket.user.id).then(function(user) {
+                cb(user)
+            })
+        },
+        privateMessage: function (toUser, message) {
+            var that = this;
+            this.models.user.findOne(toUser).then(function (user) {
+                var out = 'Private[' + user.firstName + '] ' + message;
+                that.socket.broadcast.to(toUser).emit('chat:message', out);
+            });
+        }
     }
 };
