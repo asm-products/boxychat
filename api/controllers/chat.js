@@ -10,7 +10,7 @@ module.exports = {
             //TODO: not working for the moment
             console.log('user disconnected');
         },
-        chatMessage: function (message) {
+        chatMessaged: function (message) {
             var that = this;
             this.models.user.findOne(this.socket.user)
                 .then(function (user) {
@@ -19,11 +19,12 @@ module.exports = {
                     that.sockets.emit('chat:message', out);
                 });
         },
-        privateMessage: function (toUser, message) {
+        chatMessage: function (toUser, message) {
+            
             var that = this;
-            this.models.user.findOne(toUser).then(function (user) {
-                var out = 'Private[' + user.firstName + '] ' + message;
-                that.socket.broadcast.to(toUser).emit('chat:message', out);
+            
+            Model.user.findOne(toUser).then(function (user) {
+                that.sockets.in(toUser).emit('chat:message', {user: that.socket.user.id, message: message});
             });
         }
     }

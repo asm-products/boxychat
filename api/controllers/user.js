@@ -37,15 +37,6 @@ function sendEmail(req, cb){
 module.exports = {
     model: 'user', // If no model is specified, CRUD actions won't be inherited
     actions: {
-        // Custom actions can be added
-        // The action keys must be in this format:
-        // 'verb /route'
-    	//dummy api, for testing purpose
-        'get /hello': function (req, res, next) {
-        	Model.user.find().exec(function(err, obj){});
-            res.send('Hello world!');
-        },
-        
         /**
 	     * user provides email address and system send the password link 
 	     * 
@@ -86,12 +77,57 @@ module.exports = {
         		});
         	});
         },
-        
+        'get /contacts': [ 
+            checkScopes(),
+            function(req, res, next) {
+                Service.chat.getContacts(req.user, function(err, val) {
+                    res.json(val);
+                });
+            }
+        ],
+        'get /contacts/:id': [ 
+            checkScopes(),
+            function(req,res,next) {
+                Service.chat.getProjectContacts(req.params.id, req.user, function(err, val) {
+                    res.json(val);
+                });
+            }
+        ],
         // Override the inherited read action
         'get /:id': function(req, res, next){
             var err = new Error('Not authorized!');
             err.status = 401;
             next(err);
-        },       
+        }
+
+              
+    },
+    sockets: {
+        connect: function() {
+            //TODO: not working for the moment
+            console.log('user connected');
+
+        },
+        disconnect :function() {
+            //TODO: not working for the moment
+            console.log('user disconnected');
+        },
+        contacts: function (cb) {
+            Service.chat.getContacts(this.socket.user.id, function(err, val) {
+                cb(val);
+            });
+        },
+        self: function(cb) {
+            Model.user.findOne(this.socket.user.id).then(function(user) {
+                cb(user);
+            });
+        },
+        privateMessage: function (toUser, message) {
+            var that = this;
+            this.models.user.findOne(toUser).then(function (user) {
+                var out = 'Private[' + user.firstName + '] ' + message;
+                that.socket.broadcast.to(toUser).emit('chat:message', out);
+            });
+        }
     }
 };

@@ -3,8 +3,10 @@ module.exports = {
     identity: 'user',
 
     attributes: {
-        firstName: 'string',
-        lastName: 'string',
+        name: {
+            type: 'string',
+            required: true
+        },
         email: {
             type: 'email',
             required: true,
@@ -17,10 +19,18 @@ module.exports = {
         activated: 'boolean',
         activationToken: 'string',
         token: 'string',
-        
-        contacts:  'array',
-        groups: 'array',
-        projects: 'array',
+        contacts: {
+            type: 'array',
+            defaultsTo: []
+        },
+        groups: {
+            type: 'array',
+            defaultsTo: []
+        },
+        projects: {
+            type: 'array',
+            defaultsTo: []
+        },
 
         validPassword: function(password, cb) {
             Service.crypt.compare(password, this.password, function (error, response) {

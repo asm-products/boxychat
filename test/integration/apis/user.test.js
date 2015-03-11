@@ -27,19 +27,7 @@ describe('User APIs', function() {
 	  var query;  
 	  
 	 this.timeout(5000);
-	  
-    it('Welcome to Boxychat', function (done) {
-    	api.get('/').expect(200).expect('Welcome to Boxychat!').end(done);
-    	
-      //api.get('/').expect(500).expect('body', 'Hello world!');
-      
-      //  .send({ name: 'test', password: 'test' })
-      //  .expect(302)
-      //  .expect('location','/mypage', done);
-      
-      //done();
-    });
-    
+
     it('forgotpassword - user email address not exist', function (done) {
     	api.post('/user/forgotpassword').expect(200).expect(/error/).expect(/Email_Address_Not_Exist/).end(done);
     });

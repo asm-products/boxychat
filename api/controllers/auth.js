@@ -1,5 +1,3 @@
-var passport = require('passport');
-
 
 function loginEmailPassword(req, email, password, cb) {
     req.app.models.user.findOne({'email': email}, function (err, user) {
@@ -35,17 +33,9 @@ module.exports = {
                 if(err || !user) {
                     return res.json(500, {message: 'Check your email'});
                 }
-                var accessToken = Service.token.sign({ id: user.id });
+                var accessToken = Service.token.sign({ id: user.id, scopes: ['master'] });
                 return res.json({accessToken: accessToken});
             });
-        },
-
-        'get /test': [
-            passport.authenticate('bearer', {session: false}),
-            function (req, res, next) {
-                res.json({test: "test"});
-            }
-        ]
-
+        }
     }
 };
